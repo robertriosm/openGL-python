@@ -5,6 +5,7 @@ import pygame.key
 from pygame.locals import *
 import pygame.display
 import gl
+from gl import Buffer
 
 width = 256
 height = 256
@@ -14,7 +15,18 @@ pygame.init()
 screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEBUF)
 clock = pygame.time.Clock()
 
+            #position      #color
+triangle = [1,1,1,          1,0,0,
+            0.7,0.4,1.6,    0,1,0,
+            -1.2,2,-2.6,    0,0,1 ]
+
+triangle = Buffer(triangle)
+triangle =
+
+
 rend = gl.Renderer(screen=screen)
+
+rend.scene.append(gl.Buffer(triangle))
 
 isRunning = True
 
@@ -36,7 +48,6 @@ while isRunning:
     rend.render()
 
     pygame.display.flip()
-
 
 pygame.quit()
 
