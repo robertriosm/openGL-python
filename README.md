@@ -1,4 +1,4 @@
-# openGL-python
+# OpenGL python simple renderer
 
 ### Roberto Rios Morales, 20979
 
