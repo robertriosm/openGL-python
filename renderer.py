@@ -8,8 +8,8 @@ import gl
 from gl import Renderer, Model
 from shaders import *
 
-width = 256
-height = 256
+width = 960
+height = 540
 
 deltaTime = 0.0
 

@@ -4,18 +4,17 @@ vertex_shader = """
 #version 450 core
 
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 vColor;
+layout (location = 1) in vec3 texcoords;
+layout (location = 1) in vec3 normals;
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
-out vec4 outColor;
 
 void main()
 {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-    outColor = vec4(vColor, 1.0);
 }
 
 """
@@ -26,11 +25,10 @@ fragment_shader = """
 #version 450 core
 
 out vec4 fragColor;
-in vec3 outColor;
 
 void main()
 {
-    fragColor = outColor;
+    fragColor = vec4(1.0,1.0,1.0,1.0);
 }
 
 """
