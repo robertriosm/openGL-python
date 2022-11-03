@@ -6,10 +6,11 @@ from ctypes import c_void_p
 from OpenGL.GL.shaders import compileProgram, compileShader
 from shaders import * 
 from obj import Obj
+from pygame import image
 
 
 class Model(object):
-    def __init__(self, objName):
+    def __init__(self, objName, textureName):
         self.model = Obj(objName)
 
         self.createVertexBuffer()
@@ -17,6 +18,11 @@ class Model(object):
         self.position = glm.vec3(0,0,0)
         self.rotation = glm.vec3(0,0,0)
         self.scale = glm.vec3(1,1,1)
+
+        self.textureSurface = image.load(textureName)
+        self.textureData = image.tostring(self.textureSurface, "RGB", True)
+
+        self.texture = glGenTextures(1)
 
 
     def createVertexBuffer(self):
@@ -133,6 +139,23 @@ class Model(object):
 
         glEnableVertexAttribArray(2)
 
+        # dar textura
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, self.texture)
+
+        glTexImage2D(GL_TEXTURE_2D,
+                     0,
+                     GL_RGB,
+                     self.textureSurface.get_width(),
+                     self.textureSurface.get_height(),
+                     0,
+                     GL_RGB,
+                     GL_UNSIGNED_BYTE,
+                     self.textureData
+        )
+
+        glGenerateMipmap(GL_TEXTURE_2D)
+
         glDrawArrays(GL_TRIANGLES, 0, self.polycount * 3 )
 
 
@@ -194,7 +217,6 @@ class Buffer:
 
 
 
-
 class Renderer:
     """openGL renderer with opengl and pygame"""
     def __init__(self, screen) -> None:
@@ -205,6 +227,8 @@ class Renderer:
 
         glEnable(GL_DEPTH_TEST)
         glViewport(0, 0, self.width, self.height)
+
+        filledMode()
 
         self.scene = []
         self.active_shader = None
@@ -219,6 +243,13 @@ class Renderer:
                                                 self.width/self.height, # Aspect Ratio
                                                 0.1,                    # Near Plane
                                                 1000) 
+
+
+    def filledMode(self):
+        glPolygonMode(GL_FRONT, GL_FILL)
+
+
+    def wireframeMode(self): pass
 
 
     def getViewMatrix(self):
@@ -264,6 +295,7 @@ class Renderer:
             glUniformMatrix4fv( glGetUniformLocation(self.active_shader, "projectionMatrix"),
                                 1, GL_FALSE, glm.value_ptr(self.projectionMatrix))
 
+            glUniform1i(glGetUniformLocation(self.active_shader, "tex"), 0)
 
         for obj in self.scene:
             if self.active_shader is not None:

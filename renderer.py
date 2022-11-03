@@ -35,7 +35,7 @@ rend = gl.Renderer(screen=screen)
 
 rend.setShaders(vertex_shader, fragment_shader)
 
-face = Model("model.obj")
+face = Model("model.obj", "model.bmp")
 
 face.position.z -= 10
 
