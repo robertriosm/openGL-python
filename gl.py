@@ -228,10 +228,18 @@ class Renderer:
         glEnable(GL_DEPTH_TEST)
         glViewport(0, 0, self.width, self.height)
 
-        filledMode()
+        self.filledMode()
 
         self.scene = []
         self.active_shader = None
+
+        self.pointLight = glm.vec3(0,0,0)
+        self.value = 0
+        self.time = 0
+
+        self.target = glm.vec3(0,0,0)
+        self.angle = 0
+        self.camDistance = 5
 
         #viewmatrix
         self.camPosition = glm.vec3(0,0,0)
@@ -249,7 +257,9 @@ class Renderer:
         glPolygonMode(GL_FRONT, GL_FILL)
 
 
-    def wireframeMode(self): pass
+    def wireframeMode(self):
+        glPolygonMode(GL_FRONT, GL_LINE)
+
 
 
     def getViewMatrix(self):
@@ -278,7 +288,8 @@ class Renderer:
 
 
     def update(self):
-        self.viewMatrix = self.getViewMatrix()
+        # self.viewMatrix = self.getViewMatrix()
+        self.viewMatrix = glm.lookAt(self.camPosition, self.target, glm.vec3(0,0.1,0.0))
 
 
 
@@ -296,6 +307,8 @@ class Renderer:
                                 1, GL_FALSE, glm.value_ptr(self.projectionMatrix))
 
             glUniform1i(glGetUniformLocation(self.active_shader, "tex"), 0)
+
+            glUniform3fv(glGetUniformLocation(self.active_shader, "pointLight"), 1, glm.value_ptr(self.pointLight))
 
         for obj in self.scene:
             if self.active_shader is not None:

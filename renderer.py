@@ -7,6 +7,7 @@ import pygame.display
 import gl
 from gl import Renderer, Model
 from shaders import *
+from math import cos, sin, radians
 
 width = 960
 height = 540
@@ -35,9 +36,12 @@ rend = gl.Renderer(screen=screen)
 
 rend.setShaders(vertex_shader, fragment_shader)
 
-face = Model("model.obj", "model.bmp")
+face = Model("Stone.obj", "marmol.bmp")
 
 face.position.z -= 10
+face.scale.x = 0.8
+face.scale.y = 0.8
+face.scale.z = 0.8
 
 rend.scene.append(face)
 
@@ -58,15 +62,60 @@ while isRunning:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 isRunning = False
+            
+            elif event.key == pygame.K_1:
+                rend.filledMode()
+
+            elif event.key == pygame.K_2:
+                rend.wireframeMode()
     
+
+    # move camera
+    if keys[K_a]:
+        rend.camPosition.x -= 5 * deltaTime
+    
+    elif keys[K_d]:
+        rend.camPosition.x += 5 * deltaTime
+    
+    # limits
+    elif keys[K_s]:
+        if rend.camPosition.y > -2:
+            rend.camPosition.y -= 5*deltaTime
+    
+    elif keys[K_w]:
+        if rend.camPosition.y < 2:
+            rend.camPosition.y += 5 * deltaTime
+
+
+    # zoom in and zoom out
+    if keys[K_q]:
+        if rend.camDistance > 2:
+            rend.camDistance -= 2*deltaTime
+    
+    elif keys[K_e]:
+        if rend.camDistance < 10:
+            rend.pointLight += 2 * deltaTime
+
+
+    # lights
     if keys[K_LEFT]:
-        rend.camPosition.x -= 10*deltaTime
+        rend.pointLight.x -= 10 * deltaTime
     
     elif keys[K_RIGHT]:
-        rend.camPosition.x += 10 * deltaTime
+        rend.pointLight.x += 10 * deltaTime
+
+    elif keys[K_DOWN]:
+        rend.pointLight.y -= 10*deltaTime
     
+    elif keys[K_UP]:
+        rend.pointLight.y += 10 * deltaTime
 
 
+    # camera changes
+    rend.target.y = rend.camPosition.y
+
+    rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
+    rend.camPosition.z = rend.target.z + cos(radians(rend.angle)) * rend.camDistance
 
     deltaTime = clock.tick(60) / 1000
     # print(deltaTime) cada segundo imprime 0.016 ~ 0.017
