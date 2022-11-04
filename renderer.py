@@ -72,29 +72,31 @@ while isRunning:
 
     # move camera
     if keys[K_a]:
-        rend.camPosition.x -= 5 * deltaTime
+        if rend.camPosition.x > -8:
+            rend.camPosition.x -= 5 * deltaTime
     
     elif keys[K_d]:
-        rend.camPosition.x += 5 * deltaTime
+        if rend.camPosition.x < 8:
+            rend.camPosition.x += 5 * deltaTime
     
     # limits
     elif keys[K_s]:
-        if rend.camPosition.y > -2:
-            rend.camPosition.y -= 5*deltaTime
+        if rend.camPosition.y > 0:
+            rend.camPosition.y -= 5 * deltaTime
     
     elif keys[K_w]:
-        if rend.camPosition.y < 2:
+        if rend.camPosition.y < 8:
             rend.camPosition.y += 5 * deltaTime
 
 
     # zoom in and zoom out
     if keys[K_q]:
         if rend.camDistance > 2:
-            rend.camDistance -= 2*deltaTime
+            rend.camDistance -= 5 * deltaTime
     
     elif keys[K_e]:
-        if rend.camDistance < 10:
-            rend.pointLight += 2 * deltaTime
+        if rend.camDistance < 8:
+            rend.camDistance += 5 * deltaTime
 
 
     # lights
@@ -105,7 +107,7 @@ while isRunning:
         rend.pointLight.x += 10 * deltaTime
 
     elif keys[K_DOWN]:
-        rend.pointLight.y -= 10*deltaTime
+        rend.pointLight.y -= 10 * deltaTime
     
     elif keys[K_UP]:
         rend.pointLight.y += 10 * deltaTime
@@ -121,7 +123,6 @@ while isRunning:
     # print(deltaTime) cada segundo imprime 0.016 ~ 0.017
 
     rend.update()
-
     rend.render()
 
     pygame.display.flip()
