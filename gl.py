@@ -14,7 +14,7 @@ class Model(object):
         self.model = Obj(objName)
 
         self.createVertexBuffer()
-
+        
         self.position = glm.vec3(0,0,0)
         self.rotation = glm.vec3(0,0,0)
         self.scale = glm.vec3(1,1,1)
