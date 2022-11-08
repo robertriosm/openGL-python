@@ -1,10 +1,10 @@
-import pygame
+
 import pygame.time
 import pygame.event
 import pygame.key
+from pygame import quit
 from pygame.locals import *
 import pygame.display
-import gl
 from gl import Renderer, Model
 from shaders import *
 from math import cos, sin, radians
@@ -30,7 +30,7 @@ triangle = [1,1,1,          1,0,0,
 # triangle = Buffer(triangle)
 
 
-rend = gl.Renderer(screen=screen)
+rend = Renderer(screen=screen)
 
 # rend.scene.append(gl.Buffer(triangle))
 
@@ -127,5 +127,5 @@ while isRunning:
 
     pygame.display.flip()
 
-pygame.quit()
+quit()
 
