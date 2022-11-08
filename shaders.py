@@ -45,7 +45,7 @@ uniform sampler2D tex;
 void main()
 {
     float intensity = dot(norms, normalize(pointLight - pos));
-    fragColor = texture(tex, UVs);
+    fragColor = texture(tex, UVs) * intensity;
 }
 
 """

@@ -8,6 +8,8 @@ import pygame.display
 from gl import Renderer, Model
 from shaders import *
 from math import cos, sin, radians
+from pickle import TRUE
+
 
 width = 960
 height = 540
@@ -72,12 +74,10 @@ while isRunning:
 
     # move camera
     if keys[K_a]:
-        if rend.camPosition.x > -8:
-            rend.camPosition.x -= 5 * deltaTime
+        rend.angle -= 30 * deltaTime
     
     elif keys[K_d]:
-        if rend.camPosition.x < 8:
-            rend.camPosition.x += 5 * deltaTime
+        rend.angle += 30 * deltaTime
     
     # limits
     elif keys[K_s]:
@@ -99,6 +99,14 @@ while isRunning:
             rend.camDistance += 5 * deltaTime
 
 
+    # camera changes
+    rend.target.y = rend.camPosition.y
+
+    rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
+    rend.camPosition.z = rend.target.z + cos(radians(rend.angle)) * rend.camDistance
+
+
+
     # lights
     if keys[K_LEFT]:
         rend.pointLight.x -= 10 * deltaTime
@@ -113,13 +121,8 @@ while isRunning:
         rend.pointLight.y += 10 * deltaTime
 
 
-    # camera changes
-    rend.target.y = rend.camPosition.y
-
-    rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
-    rend.camPosition.z = rend.target.z + cos(radians(rend.angle)) * rend.camDistance
-
     deltaTime = clock.tick(60) / 1000
+    rend.time += deltaTime
     # print(deltaTime) cada segundo imprime 0.016 ~ 0.017
 
     rend.update()

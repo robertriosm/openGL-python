@@ -139,25 +139,25 @@ class Model(object):
 
         glEnableVertexAttribArray(2)
 
-        # dar textura
-        glActiveTexture(GL_TEXTURE0)
-        glBindTexture(GL_TEXTURE_2D, self.texture)
 
-        glTexImage2D(GL_TEXTURE_2D,
-                     0,
-                     GL_RGB,
-                     self.textureSurface.get_width(),
-                     self.textureSurface.get_height(),
-                     0,
-                     GL_RGB,
-                     GL_UNSIGNED_BYTE,
-                     self.textureData
-        )
+        # Dar la textura
+        glActiveTexture( GL_TEXTURE0 )
+        glBindTexture(GL_TEXTURE_2D, self.texture)
+        glTexImage2D(GL_TEXTURE_2D,                     # Texture Type
+                     0,                                 # Positions
+                     GL_RGB,                            # Format
+                     self.textureSurface.get_width(),   # Width
+                     self.textureSurface.get_height(),  # Height
+                     0,                                 # Border
+                     GL_RGB,                            # Format
+                     GL_UNSIGNED_BYTE,                  # Type
+                     self.textureData)                  # Data
 
         glGenerateMipmap(GL_TEXTURE_2D)
 
-        glDrawArrays(GL_TRIANGLES, 0, self.polycount * 3 )
 
+
+        glDrawArrays(GL_TRIANGLES, 0, self.polycount * 3 )
 
 
 class Buffer:
@@ -307,6 +307,8 @@ class Renderer:
                                 1, GL_FALSE, glm.value_ptr(self.projectionMatrix))
 
             glUniform1i(glGetUniformLocation(self.active_shader, "tex"), 0)
+
+            glUniform1f( glGetUniformLocation(self.active_shader, "time"), self.time)   
 
             glUniform3fv(glGetUniformLocation(self.active_shader, "pointLight"), 1, glm.value_ptr(self.pointLight))
 
