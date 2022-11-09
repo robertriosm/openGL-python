@@ -237,6 +237,8 @@ class Renderer:
         self.value = 0
         self.time = 0
 
+        self.deltaTime = 0
+
         self.target = glm.vec3(0,0,0)
         self.angle = 0
         self.camDistance = 5
@@ -259,7 +261,12 @@ class Renderer:
 
     def wireframeMode(self):
         glPolygonMode(GL_FRONT, GL_LINE)
+    
+    def shader1(self):
+        pass
 
+    def shader1(self):
+        pass
 
 
     def getViewMatrix(self):

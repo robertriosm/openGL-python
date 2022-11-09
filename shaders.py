@@ -11,6 +11,8 @@ uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
+uniform float time;
+
 out vec2 UVs;
 out vec3 norms;
 out vec3 pos;
@@ -18,10 +20,14 @@ out vec3 pos;
 
 void main()
 {
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
     UVs = texcoords;
     norms = normals;
-    pos = (modelMatrix * vec4(position, 1.0)).xyz;
+
+    pos = (modelMatrix * vec4(position + (normals * sin(time*3))/10, 1.0) ).xyz;
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position + (normals * sin(time*3))/10, 1.0);
+
+    /* pos = (modelMatrix * vec4(position, 1.0)).xyz; */
+    /* gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0); */
 }
 
 """

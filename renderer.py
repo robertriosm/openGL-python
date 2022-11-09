@@ -40,7 +40,7 @@ rend.setShaders(vertex_shader, fragment_shader)
 
 face = Model("Stone.obj", "marmol.bmp")
 
-face.position.z -= 10
+face.position.z -= 20
 face.scale.x = 0.8
 face.scale.y = 0.8
 face.scale.z = 0.8
@@ -70,6 +70,12 @@ while isRunning:
 
             elif event.key == pygame.K_2:
                 rend.wireframeMode()
+
+            elif event.key == pygame.K_3:
+                rend.shader1()
+
+            elif event.key == pygame.K_4:
+                rend.shader2()
     
 
     # move camera
