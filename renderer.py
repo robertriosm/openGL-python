@@ -108,8 +108,9 @@ while isRunning:
     # camera changes
     rend.target.y = rend.camPosition.y
 
-    rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
-    rend.camPosition.z = rend.target.z + cos(radians(rend.angle)) * rend.camDistance
+
+    rend.camPosition.x = rend.target.x + cos(radians(rend.angle)) * rend.camDistance
+    rend.camPosition.z = rend.target.z + sin(radians(rend.angle)) * rend.camDistance
 
 
 

@@ -32,7 +32,7 @@ void main()
 
 """
 
-# este se corre por pixel
+
 fragment_shader = """
 
 #version 450 core
